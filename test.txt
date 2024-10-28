@@ -1,0 +1,33 @@
+ Volume in drive C has no label.
+ Volume Serial Number is 32DF-145C
+
+ Directory of C:\Users\juebanks27\Documents\Code\python_files
+
+10/25/2024  04:52 PM    <DIR>          .
+09/02/2024  10:36 AM    <DIR>          ..
+11/22/2023  07:08 PM    <DIR>          .ipynb_checkpoints
+04/26/2024  02:26 PM    <DIR>          antigravity_cube
+08/30/2024  06:59 PM             1,247 csv_to_postgresql.py
+05/17/2024  09:32 PM             4,160 effort_calc.py
+02/16/2024  10:08 AM            45,754 global_inflation_data.csv
+08/25/2024  11:44 AM             3,288 image_reading.py
+07/06/2024  12:57 PM    <DIR>          learn_django
+05/28/2024  10:45 AM    <DIR>          milesplit
+05/17/2024  01:17 PM    <DIR>          pygameUI
+05/22/2024  10:41 AM    <DIR>          pygame_cells
+04/16/2024  10:11 AM    <DIR>          pygame_test
+08/25/2024  11:43 AM             1,893 running_chart.py
+11/22/2023  01:04 PM           527,958 sales_data_sample.csv
+01/18/2024  11:10 PM    <DIR>          scheduler
+10/25/2024  09:02 PM             1,412 server.py
+05/24/2024  06:08 PM    <DIR>          spaceage_platformer
+05/29/2024  07:08 PM    <DIR>          special_typer
+09/01/2024  03:26 PM    <DIR>          strava_analytics
+10/25/2024  08:59 PM               957 test.py
+10/25/2024  09:06 PM                 0 test.txt
+08/25/2024  11:43 AM             1,121 TestNotebook.ipynb
+04/22/2024  08:20 PM    <DIR>          tfrrs
+07/24/2024  09:22 PM    <DIR>          travel-planner-api
+08/31/2024  04:42 PM    <DIR>          __pycache__
+              10 File(s)        587,790 bytes
+              16 Dir(s)  27,398,672,384 bytes free
